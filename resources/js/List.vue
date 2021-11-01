@@ -25,8 +25,8 @@
                     aria-label="Default select example"
                 >
                     <option value="" selected>Validate Phone Number</option>
-                    <option value="1">Valid</option>
-                    <option value="0">InValid</option>
+                    <option value="valid">Valid</option>
+                    <option value="invalid">InValid</option>
                 </select>
             </div>
 
@@ -73,8 +73,17 @@ export default {
     },
     methods: {
         async listAll(page = 1) {
+            let url = `filter?page=${page}`;
+            if (this.country !== null && this.country !== "") {
+                url = url + `&country=${this.country}`;
+            }
+
+            if (this.state !== null && this.state !== "") {
+                url = url + `&state=${this.state}`;
+            }
+            console.log(url,this.country,this.state,"consol log");
             await axios
-                .get(`filter?page=${page}`)
+                .get(`${url}`)
                 .then(({ data }) => {
                     this.list = data;
                 })

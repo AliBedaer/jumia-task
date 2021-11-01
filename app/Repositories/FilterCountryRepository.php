@@ -54,18 +54,17 @@ class FilterCountryRepository extends BaseRepository
         //
         $countryCode = CountriesCodesEnum::getConstantValue($filterCountriesDTO->getCountry());
 
-
-        $stateAppendCondition =  (isset($state) && $state != "") ?  '' : ' NOT ';
+        $stateAppendCondition =  $state == "invalid" ?  ' NOT ' : '';
 
         $query = $this->baseQuery($regex);
 
         // state filter query
         if (isset($state)){
-            $query = $query->whereRaw($stateAppendCondition . "regexp_like('/$regex/',phone)");
+            $query = $query->whereRaw($stateAppendCondition . "regexpLike('/$regex/',phone)");
         }
 
         // country filter Query
-        if (isset($country)) {
+        if (isset($country) && !empty($country)) {
             $query = $query->where('phone', 'LIKE', '(' . $countryCode . ')%');
         }
 
@@ -82,6 +81,6 @@ class FilterCountryRepository extends BaseRepository
     private function baseQuery(string $regex) : Builder
     {
         return $this->query()
-            ->select("*", DB::raw("CASE WHEN regexp_like('/$regex/',phone) THEN 'OK' ELSE 'NOK' END state"), DB::raw("getCountryCode(phone) as code"), DB::raw("getCountry(phone) as country"));
+            ->select("*", DB::raw("CASE WHEN regexpLike('/$regex/',phone) THEN 'OK' ELSE 'NOK' END state"), DB::raw("getCountryCode(phone) as code"), DB::raw("getCountry(phone) as country"));
     }
 }

@@ -13,7 +13,7 @@ class Customer extends Model
     {
         if (DB::Connection() instanceof \Illuminate\Database\SQLiteConnection) {
 
-            DB::connection()->getPdo()->sqliteCreateFunction("regexp_like", "preg_match", 2);
+            DB::connection()->getPdo()->sqliteCreateFunction("regexpLike", "preg_match", 2);
 
             DB::connection()->getPdo()->sqliteCreateFunction("getCountryCode", function ($phone) {
                 preg_match('/\([0-9]{0,}\)/', $phone, $m);

@@ -88,7 +88,7 @@ class FilterCountriesTest extends TestCase
 
     public function testListWithStateValidFilter()
     {
-        $response = $this->json("GET", '/filter?state=1', [], ['Accept' => 'application/json']);
+        $response = $this->json("GET", '/filter?state=valid', [], ['Accept' => 'application/json']);
         $response->assertResponseStatus(200);
         $response->seeJsonContains([
             "id" => 1,
@@ -102,7 +102,7 @@ class FilterCountriesTest extends TestCase
 
     public function testListWithStateInValidFilter()
     {
-        $response = $this->json("GET", '/filter?state=0', [], ['Accept' => 'application/json']);
+        $response = $this->json("GET", '/filter?state=invalid', [], ['Accept' => 'application/json']);
         $response->assertResponseStatus(200);
         $response->seeJsonContains([
             "id" => 0,

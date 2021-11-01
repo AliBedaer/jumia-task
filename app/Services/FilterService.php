@@ -40,7 +40,7 @@ class FilterService
 
         $validator = Validator::make($request->all(), [
             "country" => Rule::in(CountriesCodesEnum::GetCountriesArray()),
-            "state" =>  "boolean"
+            "state" =>   Rule::in(["valid","invalid"]),
         ]);
 
         if ($validator->fails()) {
@@ -60,6 +60,7 @@ class FilterService
     public function filter() : LengthAwarePaginator
     {
         if (count(request()->all()) > 0) {
+
             if (!empty(request()->get("country")) || !empty(request()->get("state"))){
                 return $this->filterData($this->filterCountriesDTO);
             }

@@ -17124,12 +17124,23 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 var _this = this;
 
                 var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+                var url;
                 return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
-                                _context.next = 2;
-                                return __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get("filter?page=" + page).then(function (_ref2) {
+                                url = "filter?page=" + page;
+
+                                if (this.country !== null && this.country !== "") {
+                                    url = url + ("&country=" + this.country);
+                                }
+
+                                if (this.state !== null && this.state !== "") {
+                                    url = url + ("&state=" + this.state);
+                                }
+                                console.log(url, this.country, this.state, "consol log");
+                                _context.next = 6;
+                                return __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get("" + url).then(function (_ref2) {
                                     var data = _ref2.data;
 
                                     _this.list = data;
@@ -17139,7 +17150,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                                     console.error(response);
                                 });
 
-                            case 2:
+                            case 6:
                             case "end":
                                 return _context.stop();
                         }
@@ -19685,9 +19696,9 @@ var render = function() {
                 _vm._v("Validate Phone Number")
               ]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "1" } }, [_vm._v("Valid")]),
+              _c("option", { attrs: { value: "valid" } }, [_vm._v("Valid")]),
               _vm._v(" "),
-              _c("option", { attrs: { value: "0" } }, [_vm._v("InValid")])
+              _c("option", { attrs: { value: "invalid" } }, [_vm._v("InValid")])
             ]
           )
         ]),

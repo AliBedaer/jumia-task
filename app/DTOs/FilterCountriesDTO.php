@@ -12,7 +12,7 @@ class FilterCountriesDTO
     /**
      * @var bool $state
      */
-    private ?bool $state;
+    private ?string $state;
 
 
     public function setCountry(?string $country)
@@ -25,12 +25,12 @@ class FilterCountriesDTO
         return $this->country;
     }
 
-    public function setState(?bool $state)
+    public function setState(?string $state)
     {
         $this->state = $state;
     }
 
-    public function getState(): ?bool
+    public function getState(): ?string
     {
         return $this->state;
     }
