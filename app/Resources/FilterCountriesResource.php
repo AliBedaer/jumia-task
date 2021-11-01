@@ -8,7 +8,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class FilterCountriesResource extends JsonResource
 {
-    public function toArray($request)
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return array
+     */
+    public function toArray($request) : array
     {
         return [
             "id" => $this->id,

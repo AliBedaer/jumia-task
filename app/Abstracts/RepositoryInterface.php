@@ -4,8 +4,12 @@ namespace App\Abstracts;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @desc a contract for repository pattern for the only used functions
+ * Interface RepositoryInterface
+ * @package App\Abstracts
+ */
 interface RepositoryInterface
 {
     public function get(): Collection;

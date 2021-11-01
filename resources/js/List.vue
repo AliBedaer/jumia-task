@@ -9,8 +9,8 @@
                     class="form-select col"
                     aria-label="Default select example"
                 >
-                    <option value="" selected>Select Country</option>
                     <!-- "Cameroon", "Ethiopia", "Morocco","Mozambique","Uganda" -->
+                    <option value="" selected>Select Country</option>
                     <option value="Cameroon">Cameroon</option>
                     <option value="Ethiopia">Ethiopia</option>
                     <option value="Morocco">Morocco</option>
@@ -86,11 +86,11 @@ export default {
             console.log(this.country, this.state);
 
             let url = `filter?page=${page}`;
-            if (this.country !== null && this.country != "") {
+            if (this.country !== null && this.country !== "") {
                 url = url + `&country=${this.country}`;
             }
 
-            if (this.state !== null && this.state != "") {
+            if (this.state !== null && this.state !== "") {
                 url = url + `&state=${this.state}`;
             }
 

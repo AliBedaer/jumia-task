@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\DTOs\FilterCountriesDTO;
-use App\Models\Customer;
 use App\Resources\FilterCountriesResource;
 use App\Services\FilterService;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use ReflectionException;
+
 
 class CountriesFilterController extends Controller
 {
@@ -30,6 +28,7 @@ class CountriesFilterController extends Controller
 
 
     /**
+     * @desc validate the request inputs and if valid filter and return resource collection
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function filter()
@@ -40,7 +39,12 @@ class CountriesFilterController extends Controller
             return response()->json(["errors" => $validateErrors], 422);
         }
 
-        return FilterCountriesResource::collection($this->filterService->filter());
+        try {
+            return FilterCountriesResource::collection($this->filterService->filter());
+        }catch (ReflectionException $e) {
+            Log::debug("Failed To Filter",["message" => $e->getMessage(),"file"=>$e->getFile(),"Line" => $e->getLine()]);
+            return  response()->json(["errors"=>"Failed To Filter"],422);
+        }
 
     }
 }

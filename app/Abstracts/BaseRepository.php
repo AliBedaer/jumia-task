@@ -7,8 +7,14 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @desc a abstract general class for repository pattern based on the the RepositoryInterface
+ * Class BaseRepository
+ * @package App\Abstracts
+ */
 abstract class BaseRepository implements RepositoryInterface
 {
+
     protected Model $model;
 
     /**

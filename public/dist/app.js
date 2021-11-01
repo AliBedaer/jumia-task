@@ -17167,11 +17167,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
                                 url = "filter?page=" + page;
 
-                                if (this.country !== null && this.country != "") {
+                                if (this.country !== null && this.country !== "") {
                                     url = url + ("&country=" + this.country);
                                 }
 
-                                if (this.state !== null && this.state != "") {
+                                if (this.state !== null && this.state !== "") {
                                     url = url + ("&state=" + this.state);
                                 }
 

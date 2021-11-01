@@ -6,7 +6,6 @@ namespace App\Services;
 use App\DTOs\FilterCountriesDTO;
 use App\Enums\CountriesCodesEnum;
 use App\Repositories\FilterCountryRepository;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Validator;
@@ -32,6 +31,7 @@ class FilterService
 
 
     /**
+     * @desc validate the request input in case filter sent
      * @param Request $request
      * @return MessageBag|null
      */
@@ -52,7 +52,9 @@ class FilterService
 
 
     /**
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|LengthAwarePaginator
+     * * @desc if the request contain filter inputs will filter based on this inputs
+     * else will return all the records paginated
+     * @return LengthAwarePaginator
      * @throws \ReflectionException
      */
     public function filter() : LengthAwarePaginator
@@ -60,11 +62,13 @@ class FilterService
         if (count(request()->all()) > 0) {
             return $this->filterData($this->filterCountriesDTO);
         }
-        return $this->filterCountryRepository->getAllCountries()->paginate(env("PAGINATION_LIMIT"));
+
+        return $this->filterCountryRepository->getAllCountries()->paginate(env("PAGINATION_LIMIT",10));
     }
 
 
     /**
+     * @desc map the request data to the DTO( Data Transfer Object )
      * @param array $data
      */
     private function setFilterCountriesDto(array $data)
@@ -75,6 +79,8 @@ class FilterService
 
 
     /**
+     * @desc in case filter params are sent this will call filterCountriesDTO to map request
+     * and pass it to filteredCountries() Function to filter based on it
      * @param FilterCountriesDTO $filterCountriesDTO
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */

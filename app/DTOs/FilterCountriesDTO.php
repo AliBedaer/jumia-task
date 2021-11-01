@@ -35,8 +35,4 @@ class FilterCountriesDTO
         return $this->state;
     }
 
-    public function getAllAsArray(): ?array
-    {
-        return ["country" => $this->country, "state" => $this->state];
-    }
 }
