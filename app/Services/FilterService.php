@@ -86,6 +86,7 @@ class FilterService
      * and pass it to filteredCountries() Function to filter based on it
      * @param FilterCountriesDTO $filterCountriesDTO
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @throws \ReflectionException
      */
     public function filterData(FilterCountriesDTO $filterCountriesDTO) : LengthAwarePaginator
     {

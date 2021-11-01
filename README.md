@@ -24,12 +24,7 @@ filter by country and state. Pagination is an extra.<br/>
 
  7. have implemented a few unit testing cases all are based on fixed data on the database
 to run the unit test this cases covers  `./vendor/bin/phpunit` 
-
-## install and run front-end
-front is built using `Vue-js 2.6.14`
-##### 1. install front-end `npm install`
-##### 5. now go to your browser and type `http://localhost:80001` or click this  [Here](http://localhost:80001)
-
+    
 ## Coding
 to know more about the coding structure it just simple I use the `Service Repository Pattern` it's a pattern that 
 separate Logic And database from each other
@@ -51,5 +46,5 @@ separate Logic And database from each other
 
 ## Tools
 
-Versions: `PHP 7.4` `Lumen 7.0`
+Versions: `PHP 7.4` `Lumen 7.0` `Vue-js 2.6.14`
 
