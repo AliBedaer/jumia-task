@@ -3,109 +3,85 @@
         <div class="card-body">
             <div class="row ">
                 <select
+                    style="margin-right:5px"
                     class="form-select col"
                     aria-label="Default select example"
                 >
-                    <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <option selected>Select Country</option>
+                    <!-- "Cameroon", "Ethiopia", "Morocco","Mozambique","Uganda" -->
+                    <option value="Cameroon">Cameroon</option>
+                    <option value="Ethiopia">Ethiopia</option>
+                    <option value="Morocco">Morocco</option>
+                    <option value="Mozambique">Mozambique</option>
+                    <option value="Uganda">Uganda</option>
                 </select>
 
                 <select
                     class="form-select col"
                     aria-label="Default select example"
                 >
-                    <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <option selected>Validate Phone Number</option>
+                    <option value="1">Valid</option>
+                    <option value="0">InValid</option>
                 </select>
             </div>
-            <button class="btn btn-primary" type="button">Button</button>
+
             <table class="table">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
+                        <th scope="col">Country</th>
+                        <th scope="col">State</th>
+                        <th scope="col">Country Code</th>
+                        <th scope="col">Phone Num</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
+                <tbody v-if="list && list.data.length > 0">
+                    <tr v-for="(item, index) in list.data" :key="index">
+                        <td>{{ item.id }}</td>
+                        <td>{{ item.country }}</td>
+                        <td>{{ item.state }}</td>
+                        <td>{{ item.code }}</td>
+                        <td>{{ item.phone }}</td>
                     </tr>
                 </tbody>
             </table>
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#">Previous</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">1</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">3</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                    </li>
-                </ul>
-            </nav>
+
+            <pagination
+                align="center"
+                :data="list"
+                @pagination-change-page="listAll"
+            ></pagination>
         </div>
     </div>
 </template>
 
 <script>
+import axios from "axios";
+import pagination from "laravel-vue-pagination";
 export default {
     data() {
         return {
-            fields: [
-                // A column that needs custom formatting
-                { key: "name", label: "Full Name" },
-                // A regular column
-                "age",
-                // A regular column
-                "sex"
-            ],
-            items: [
-                { name: { first: "John", last: "Doe" }, sex: "Male", age: 42 },
-                {
-                    name: { first: "Jane", last: "Doe" },
-                    sex: "Female",
-                    age: 36
-                },
-                {
-                    name: { first: "Rubin", last: "Kincade" },
-                    sex: "Male",
-                    age: 73
-                },
-                {
-                    name: { first: "Shirley", last: "Partridge" },
-                    sex: "Female",
-                    age: 62
-                }
-            ]
+            list: {}
         };
+    },
+    methods: {
+        async listAll(page = 1) {
+            await axios
+                .get(`filter?page=${page}`)
+                .then(({ data }) => {
+                    this.list = data;
+                })
+                .catch(({ response }) => {
+                    console.error(response);
+                });
+        }
+    },
+    mounted() {
+        this.listAll();
+    },
+    components: {
+        pagination
     }
 };
 </script>
