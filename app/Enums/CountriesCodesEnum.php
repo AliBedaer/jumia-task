@@ -5,11 +5,11 @@ namespace App\Enums;
 
 class CountriesCodesEnum extends BaseEnum
 {
-    public const CAMEROON   = +237;
-    public const ETHIOPIA   = +251;
-    public const MOROCCO    = +212;
-    public const MOZAMBIQUE = +258;
-    public const UGANDA     = +256;
+    public const CAMEROON   = 237;
+    public const ETHIOPIA   = 251;
+    public const MOROCCO    = 212;
+    public const MOZAMBIQUE = 258;
+    public const UGANDA     = 256;
 
     /**
      * @return string[]

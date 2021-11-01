@@ -98,9 +98,12 @@ class FilterCountryRepository extends BaseRepository
 
         $stateAppendCondition = $this->state == "invalid" ? ' NOT ' : '';
 
-        if (!empty($state)) {
+
+        if (!empty($this->state)) {
+
             $query = $query->whereRaw($stateAppendCondition . "regexpLike('/$this->regex/',phone)");
         }
+
 
         if (!empty($this->country)) {
             $query = $query->where('phone', 'LIKE', '(' . $this->countryCode . ')%');
@@ -111,6 +114,11 @@ class FilterCountryRepository extends BaseRepository
     }
 
 
+    /**
+     * @desc set all shared queries and variable for search
+     * @param FilterCountriesDTO $filterCountriesDTO
+     * @throws ReflectionException
+     */
     private function sharedBetweenFilter(FilterCountriesDTO $filterCountriesDTO)
     {
         $this->state = $filterCountriesDTO->getState();

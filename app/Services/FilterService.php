@@ -87,15 +87,19 @@ class FilterService
     {
         $this->setFilterCountriesDto(request()->all());
 
-        if (!empty($this->filterCountriesDTO->getCountry()) && empty($this->filterCountriesDTO->getState())) {
+        $country = $this->filterCountriesDTO->getCountry();
+        $state = $this->filterCountriesDTO->getState();
+
+
+        if (!empty($country) && empty($state)) {
             return $this->filterCountryRepository->filterByCountry($this->filterCountriesDTO)->paginate(env("PAGINATION_LIMIT"));
         }
 
-        if (!empty($this->filterCountriesDTO->getState()) && empty($this->filterCountriesDTO->getCountry())) {
+        if (!empty($state) && empty($country)) {
             return $this->filterCountryRepository->filterByValidity($this->filterCountriesDTO)->paginate(env("PAGINATION_LIMIT"));
         }
 
-        if (!empty($this->filterCountriesDTO->getState()) && !empty($this->filterCountriesDTO->getCountry())) {
+        if (!empty($state) && !empty($country)) {
             return $this->filterCountryRepository->filterByCountryAndValidity($this->filterCountriesDTO)->paginate(env("PAGINATION_LIMIT"));
         }
 
