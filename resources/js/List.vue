@@ -3,11 +3,13 @@
         <div class="card-body">
             <div class="row ">
                 <select
+                    v-model="country"
+                    v-on:change="filterByCountryAndState($event)"
                     style="margin-right:5px"
                     class="form-select col"
                     aria-label="Default select example"
                 >
-                    <option selected>Select Country</option>
+                    <option value="" selected>Select Country</option>
                     <!-- "Cameroon", "Ethiopia", "Morocco","Mozambique","Uganda" -->
                     <option value="Cameroon">Cameroon</option>
                     <option value="Ethiopia">Ethiopia</option>
@@ -17,10 +19,12 @@
                 </select>
 
                 <select
+                    v-model="state"
+                    v-on:change="filterByCountryAndState($event)"
                     class="form-select col"
                     aria-label="Default select example"
                 >
-                    <option selected>Validate Phone Number</option>
+                    <option value="" selected>Validate Phone Number</option>
                     <option value="1">Valid</option>
                     <option value="0">InValid</option>
                 </select>
@@ -62,13 +66,38 @@ import pagination from "laravel-vue-pagination";
 export default {
     data() {
         return {
-            list: {}
+            list: {},
+            country: null,
+            state: null
         };
     },
     methods: {
         async listAll(page = 1) {
             await axios
                 .get(`filter?page=${page}`)
+                .then(({ data }) => {
+                    this.list = data;
+                })
+                .catch(({ response }) => {
+                    console.error(response);
+                });
+        },
+        async filterByCountryAndState(event, page = 1) {
+            console.log(this.country, this.state);
+
+            let url = `filter?page=${page}`;
+            if (this.country !== null && this.country != "") {
+                url = url + `&country=${this.country}`;
+            }
+
+            if (this.state !== null && this.state != "") {
+                url = url + `&state=${this.state}`;
+            }
+
+            console.log(url);
+
+            await axios
+                .get(`${url}`)
                 .then(({ data }) => {
                     this.list = data;
                 })
