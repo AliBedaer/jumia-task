@@ -40,7 +40,7 @@ class FilterService
 
         $validator = Validator::make($request->all(), [
             "country" => Rule::in(CountriesCodesEnum::GetCountriesArray()),
-            "state" =>   Rule::in(["valid","invalid"]),
+            "state" => Rule::in(["valid", "invalid"]),
         ]);
 
         if ($validator->fails()) {
@@ -57,17 +57,14 @@ class FilterService
      * @return LengthAwarePaginator
      * @throws \ReflectionException
      */
-    public function filter() : LengthAwarePaginator
+    public function filter(): LengthAwarePaginator
     {
         if (count(request()->all()) > 0) {
-
-            if (!empty(request()->get("country")) || !empty(request()->get("state"))){
-                return $this->filterData($this->filterCountriesDTO);
-            }
-
+            // in case all key sent but empty return all data
+            return $this->filterData() ?? $this->filterCountryRepository->getAllCountries()->paginate(env("PAGINATION_LIMIT", 10));
         }
 
-        return $this->filterCountryRepository->getAllCountries()->paginate(env("PAGINATION_LIMIT",10));
+        return $this->filterCountryRepository->getAllCountries()->paginate(env("PAGINATION_LIMIT", 10));
     }
 
 
@@ -83,16 +80,25 @@ class FilterService
 
 
     /**
-     * @desc in case filter params are sent this will call filterCountriesDTO to map request
-     * and pass it to filteredCountries() Function to filter based on it
-     * @param FilterCountriesDTO $filterCountriesDTO
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
-     * @throws \ReflectionException
+     * @desc filter based on sent parameter and return null in case all sent but null
+     * @return LengthAwarePaginator
      */
-    public function filterData(FilterCountriesDTO $filterCountriesDTO) : LengthAwarePaginator
+    private function filterData(): ?LengthAwarePaginator
     {
         $this->setFilterCountriesDto(request()->all());
 
-        return $this->filterCountryRepository->filteredCountries($filterCountriesDTO)->paginate(env("PAGINATION_LIMIT"));
+        if (!empty($this->filterCountriesDTO->getCountry()) && empty($this->filterCountriesDTO->getState())) {
+            return $this->filterCountryRepository->filterByCountry($this->filterCountriesDTO)->paginate(env("PAGINATION_LIMIT"));
+        }
+
+        if (!empty($this->filterCountriesDTO->getState()) && empty($this->filterCountriesDTO->getCountry())) {
+            return $this->filterCountryRepository->filterByValidity($this->filterCountriesDTO)->paginate(env("PAGINATION_LIMIT"));
+        }
+
+        if (!empty($this->filterCountriesDTO->getState()) && !empty($this->filterCountriesDTO->getCountry())) {
+            return $this->filterCountryRepository->filterByCountryAndValidity($this->filterCountriesDTO)->paginate(env("PAGINATION_LIMIT"));
+        }
+
+        return null;
     }
 }

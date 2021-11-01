@@ -15,6 +15,11 @@ use ReflectionException;
 class FilterCountryRepository extends BaseRepository
 {
 
+    private ?string $state;
+    private ?string $regex;
+    private ?string $countryCode;
+    private ?string $country;
+
     /**
      * FilterCountryRepository constructor.
      * @param Customer $customer
@@ -26,50 +31,97 @@ class FilterCountryRepository extends BaseRepository
 
 
     /**
-     * @desc the main function to fetch countries build the used regex and pass it to the baseQuery()
+     * @desc the main function to fetch countries and build the used regex and pass it to the baseQuery()
      * @return Builder
      * @throws ReflectionException
      */
-    public function getAllCountries() : Builder
+    public function getAllCountries(): Builder
     {
         $regex = implode("|", CountriesFilterRegexEnum::getConstantsValues());
-        return  $this->baseQuery($regex);
+        return $this->baseQuery($regex);
     }
 
 
     /**
-     * @desc
+     * @desc filter only by validity either valid or invalid
      * @param FilterCountriesDTO $filterCountriesDTO
-     * @return array|Builder[]|\Illuminate\Database\Eloquent\Collection
-     * @throws ReflectionException
+     * @return Builder
      */
-    public function filteredCountries(FilterCountriesDTO $filterCountriesDTO)
+    public function filterByValidity(FilterCountriesDTO $filterCountriesDTO): Builder
     {
-        $country = $filterCountriesDTO->getCountry(); // define the country from DTO
-        $state = $filterCountriesDTO->getState(); // define the State from DTO
 
-        //  build the regex if a specific country filter sent else execute all countries regex
-        $regex = CountriesFilterRegexEnum::getConstantValue($filterCountriesDTO->getCountry()) ?? implode("|", CountriesFilterRegexEnum::getConstantsValues());
+        $this->sharedBetweenFilter($filterCountriesDTO);
 
-        //
-        $countryCode = CountriesCodesEnum::getConstantValue($filterCountriesDTO->getCountry());
+        $stateAppendCondition = $this->state == "invalid" ? ' NOT ' : '';
 
-        $stateAppendCondition =  $state == "invalid" ?  ' NOT ' : '';
+        $query = $this->baseQuery($this->regex);
 
-        $query = $this->baseQuery($regex);
-
-        // state filter query
-        if (isset($state)){
-            $query = $query->whereRaw($stateAppendCondition . "regexpLike('/$regex/',phone)");
-        }
-
-        // country filter Query
-        if (isset($country) && !empty($country)) {
-            $query = $query->where('phone', 'LIKE', '(' . $countryCode . ')%');
+        if (isset($this->state)) {
+            $query = $query->whereRaw($stateAppendCondition . "regexpLike('/$this->regex/',phone)");
         }
 
         return $query;
     }
+
+
+    /**
+     * @desc filter only by country
+     * @param FilterCountriesDTO $filterCountriesDTO
+     * @return Builder
+     */
+    public function filterByCountry(FilterCountriesDTO $filterCountriesDTO): Builder
+    {
+        $this->sharedBetweenFilter($filterCountriesDTO);
+
+        $query = $this->baseQuery($this->regex);
+
+
+        if (isset($this->country) && !empty($this->country)) {
+            $query = $query->where('phone', 'LIKE', '(' . $this->countryCode . ')%');
+        }
+
+        return $query;
+    }
+
+
+    /**
+     * @desc when filter by both country and validity
+     * @param FilterCountriesDTO $filterCountriesDTO
+     * @return Builder
+     */
+    public function filterByCountryAndValidity(FilterCountriesDTO $filterCountriesDTO): Builder
+    {
+        $this->sharedBetweenFilter($filterCountriesDTO);
+
+        $query = $this->baseQuery($this->regex);
+
+
+        $stateAppendCondition = $this->state == "invalid" ? ' NOT ' : '';
+
+        if (!empty($state)) {
+            $query = $query->whereRaw($stateAppendCondition . "regexpLike('/$this->regex/',phone)");
+        }
+
+        if (!empty($this->country)) {
+            $query = $query->where('phone', 'LIKE', '(' . $this->countryCode . ')%');
+        }
+
+        return $query;
+
+    }
+
+
+    private function sharedBetweenFilter(FilterCountriesDTO $filterCountriesDTO)
+    {
+        $this->state = $filterCountriesDTO->getState();
+
+        $this->regex = CountriesFilterRegexEnum::getConstantValue($filterCountriesDTO->getCountry()) ?? implode("|", CountriesFilterRegexEnum::getConstantsValues());
+
+        $this->countryCode = CountriesCodesEnum::getConstantValue($filterCountriesDTO->getCountry());
+
+        $this->country = $filterCountriesDTO->getCountry();
+    }
+
 
     /**
      * @desc list All | filter By Country | filter by Valid or not => all are share this query
@@ -78,7 +130,7 @@ class FilterCountryRepository extends BaseRepository
      * @param string $regex
      * @return Builder
      */
-    private function baseQuery(string $regex) : Builder
+    private function baseQuery(string $regex): Builder
     {
         return $this->query()
             ->select("*", DB::raw("CASE WHEN regexpLike('/$regex/',phone) THEN 'OK' ELSE 'NOK' END state"), DB::raw("getCountryCode(phone) as code"), DB::raw("getCountry(phone) as country"));
