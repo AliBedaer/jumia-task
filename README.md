@@ -31,7 +31,7 @@ front is built using `Vue-js 2.6.14`
 ##### 5. now go to your browser and type `http://localhost:80001` or click this  [Here](http://localhost:80001)
 
 ## Coding
-to know more about the coding structure it just simple i use the `Service Repository Pattern` it's a pattern that 
+to know more about the coding structure it just simple I use the `Service Repository Pattern` it's a pattern that 
 separate Logic And database from each other
 - `controller only responsible for Input Out Put`
 - `Service Layer for the logic`
@@ -39,8 +39,8 @@ separate Logic And database from each other
 
 ## Code And Directory Structure
 
- 1. `app/abstracts` folder responsible for any contracts like `interfaces` or `abstract classes`
- 2. `app/DTOs` is for DTOs(Data Transfer Object) instead of passing variables to functions parameters DTO is much better for passing the data inside your code
+ 1. `app\abstracts` folder responsible for any contracts like `interfaces` or `abstract classes`
+ 2. `app\DTOs` is for DTOs(Data Transfer Object) instead of passing variables to functions parameters DTO is much better for passing the data inside your code
  3. `app\Enums` is for static or lookups data 
  4. `app\Http\Controller` for the input output all is exists in the  `CountriesFilterController.php`
  5. `app\Service` here is all the logic inside `FilterService.php` class   
