@@ -47,7 +47,7 @@ separate Logic And database from each other
  5. `app\Repositories` is the data layer and handling queries all inside `FilterCountryRepository.php` class
  6. `app\Resources` the for response mapping layer lumen is not like laravel shipped with the resource layer, so it must be created 
 
-### preview here is a [postman document](http://localhost:80001) published with test example please Make Sure to review
+### preview here is a [postman document](https://documenter.getpostman.com/view/2026321/UVByKWTq) published with test example please Make Sure to review
 
 ## Tools
 
