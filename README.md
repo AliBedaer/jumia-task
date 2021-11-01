@@ -1,58 +1,53 @@
 ## Jumia Task
 
-#### Service Specification
+### For install , Setup and instructions please read the following 
+
+### Service Specification
 **The service should be able to provide:** <br/>
-• A list of the most popular repositories, sorted by number of stars.<br/>
-• An option to be able to view the top 10, 50, 100 repositories should be available.<br/>
-• Given a date, the most popular repositories created from this date onwards should
-be returned.<br/>
-• A filter for the programming language would be a great addition to have.<br/><br/>
-#### Implementation Details
-**GitHub provides a public search endpoint which you can use for fetching the most
-popular repositories:**
-[Github](https://api.github.com/search/repositories?q=created:>2019-01-10&sort=stars&order=desc)
-But feel free to use any other endpoints, if you wish.
-We will really value: concise and clean code, scalability and performance and testing.
-Have fun!````
-
-## Lumen PHP Framework
-
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
-
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+• Create a single page application that uses the database provided (SQLite 3) to list and
+categorize country phone numbers.
+Phone numbers should be categorized by country, state (valid or not valid), country code and
+number.
+The page should render a list of all phone numbers available in the DB. It should be possible to
+filter by country and state. Pagination is an extra.<br/>
 
 
-## Tutorial
+## Installation & Setup
+### first install and Run back-end
+##### 1. clone the repo `git clone git@github.com:AliBedaer/jumia-task.git`
+##### 2. install composer of project `composer install`
+##### 3. copy the `.env` file `cp .env.example .env` this will copy the example to the `.env`
+##### 4. run the application using `php -S localhost:8001 -t public` you cane change `8001` to any you want
+##### 5. now go to your postman and type `http://localhost:80001/filter`
 
-##### 1. install composer of project composer install
-##### 2. using postman document to guid you to apis: <br/>
-https://documenter.getpostman.com/view/8316268/UV5deaej
+##### 6. please Make sure to change the database path in the `.env` to be full path like this `/media/user/project/database/sample.db`
+
+##### 7. have implemented a few unit testing cases all are based on fixed data on the database
+to run the unit test this cases covers  `./vendor/bin/phpunit` 
+
+## install and run front-end
+front is built using `Vue-js 2.6.14`
+##### 1. install front-end `npm install`
+##### 5. now go to your browser and type `http://localhost:80001` or click this  [Here](http://localhost:80001)
 
 ## Coding
+to know more about the coding structure it just simple i use the `Service Repository Pattern` it's a pattern that 
+separate Logic And database from each other
+- `controller only responsible for Input Out Put`
+- `Service Layer for the logic`
+- `and repository pattern for the database and queries or any data `
 
-##### 1. Find core logic in "app/Safa" folder, wrote according to SOLID Principles.<br/>
-##### 2. Find business logic in "app/Http/Controllers/Controller.php" file.<br/>
+## Code And Directory Structure
 
-## Coding Description
-
-##### 1. "app/Safa/Classes/Constants.php" responsible for define all const vals that we using in the system like: "GITHUB_URL"<br/>
-##### 2. "app/Safa/Classes/RequestParse.php" responsible for getting and parse the response of "GITHUB_URL"<br/>
-
-##### 3. "app/Safa/Resources/RequestResource.php" responsible for getting all parameter request<br/>
-##### 4. "app/Safa/Validators/Validator.php": responsible for validating parameter inputs<br/>
-
-##### 5. "app/Safa/Mappers/RepositoryMapper.php": this pattern responsible for display the elements of every object that you want and hidden other<br/>
-
-## Postman Result ScreenShot
-
-<p align="center">
-<img src="./resources/img/postman.jpg" style="height: 300px;" >
-</p>
+ 1. `app/abstracts` folder responsible for any contracts like `interfaces` or `abstract classes`
+ 2. `app/DTOs` is for DTOs(Data Transfer Object) instead of passing variables to functions parameters DTO is much better for passing the data inside your code
+ 3. `app\Enums` is for static or lookups data 
+ 4. `app\Http\Controller` for the input output all is exists in the  `CountriesFilterController.php`
+ 5. `app\Service` here is all the logic inside `FilterService.php` class   
+ 5. `app\Repositories` is the data layer and handling queries all inside `FilterCountryRepository.php` class
+ 6. `app\Resources` the for response mapping layer lumen is not like laravel shipped with the resource layer, so it must be created 
 
 ## Tools
 
-#### Programming Language: PHP 7.2
-#### Framework: Lumen 7.0
+Versions: `PHP 7.4` `Lumen 7.0`
+
