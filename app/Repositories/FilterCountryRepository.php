@@ -41,6 +41,7 @@ class FilterCountryRepository extends BaseRepository
      * @desc
      * @param FilterCountriesDTO $filterCountriesDTO
      * @return array|Builder[]|\Illuminate\Database\Eloquent\Collection
+     * @throws ReflectionException
      */
     public function filteredCountries(FilterCountriesDTO $filterCountriesDTO)
     {

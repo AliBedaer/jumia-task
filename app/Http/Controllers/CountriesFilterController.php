@@ -41,9 +41,13 @@ class CountriesFilterController extends Controller
 
         try {
             return FilterCountriesResource::collection($this->filterService->filter());
-        }catch (ReflectionException $e) {
-            Log::debug("Failed To Filter",["message" => $e->getMessage(),"file"=>$e->getFile(),"Line" => $e->getLine()]);
-            return  response()->json(["errors"=>"Failed To Filter"],422);
+        } catch (ReflectionException $e) {
+            Log::debug("Failed To Filter", [
+                "message" => $e->getMessage(),
+                "file" => $e->getFile(),
+                "Line" => $e->getLine()
+            ]);
+            return response()->json(["errors" => "Failed To Filter"], 422);
         }
 
     }

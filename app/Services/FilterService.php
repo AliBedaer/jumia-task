@@ -60,7 +60,10 @@ class FilterService
     public function filter() : LengthAwarePaginator
     {
         if (count(request()->all()) > 0) {
-            return $this->filterData($this->filterCountriesDTO);
+            if (!empty(request()->get("country")) || !empty(request()->get("state"))){
+                return $this->filterData($this->filterCountriesDTO);
+            }
+
         }
 
         return $this->filterCountryRepository->getAllCountries()->paginate(env("PAGINATION_LIMIT",10));
