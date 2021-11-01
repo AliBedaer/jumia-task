@@ -33,7 +33,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
+                        <th scope="col">ID</th>
                         <th scope="col">Country</th>
                         <th scope="col">State</th>
                         <th scope="col">Country Code</th>

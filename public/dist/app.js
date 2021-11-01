@@ -19732,7 +19732,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("ID")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Country")]),
         _vm._v(" "),
@@ -19764,10 +19764,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    {
-      staticClass: "position-absolute top-50 start-50 translate-middle col-6",
-      attrs: { id: "app" }
-    },
+    { staticClass: "mt-5 mb-5", attrs: { id: "app" } },
     [_c("list")],
     1
   )

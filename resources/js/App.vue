@@ -1,7 +1,7 @@
 <template>
     <div
         id="app"
-        class="position-absolute top-50 start-50 translate-middle col-6"
+        class="mt-5 mb-5"
     >
         <list></list>
     </div>
