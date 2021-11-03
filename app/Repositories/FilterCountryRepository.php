@@ -88,6 +88,7 @@ class FilterCountryRepository extends BaseRepository
      * @desc when filter by both country and validity
      * @param FilterCountriesDTO $filterCountriesDTO
      * @return Builder
+     * @throws ReflectionException
      */
     public function filterByCountryAndValidity(FilterCountriesDTO $filterCountriesDTO): Builder
     {
