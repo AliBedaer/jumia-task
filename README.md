@@ -17,10 +17,10 @@ filter by country and state. Pagination is an extra.<br/>
  1. clone the repo `git clone git@github.com:AliBedaer/jumia-task.git`
  2. install composer of project `composer install` 
  3. run `docker-compose up --build -d`
-##### the next two steps are not necessary
- 3. copy the `.env` file `cp .env.example .env` this will copy the example to the `.env`
- 4. run the application using `php -S localhost:8001 -t public` you cane change `8080` to any you want
- 5. now go to your postman and type `http://localhost:8080/filter`
+#####  steps 4,5 are not necessary
+ 4. copy the `.env` file `cp .env.example .env` this will copy the example to the `.env`
+ 5. run the application using `php -S localhost:8001 -t public` you cane change `8080` to any you want
+ 6. now go to your postman and type `http://localhost:8080/filter`
 
 ##### 6. please Make sure to change the database path in the `.env` to be full path like this `/media/user/project/database/sample.db`
 
